@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<types>
+	<type>Get</type>
+	<type>Upsert</type>
+	<type>Delete</type>
+</types>

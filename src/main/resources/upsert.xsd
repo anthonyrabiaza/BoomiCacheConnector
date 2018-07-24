@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Upsert">
+		<xs:annotation>
+			<xs:documentation>Upsert Input Operation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="1" minOccurs="1" name="ID"
+					type="xs:normalizedString">
+					<xs:annotation>
+						<xs:appinfo>
+							<rest:metadata indexed="true" required="true"
+								xmlns:rest="uri:com.boomi.rest" />
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				<xs:element maxOccurs="1" minOccurs="1" name="Value"
+					type="xs:normalizedString">
+					<xs:annotation>
+						<xs:appinfo>
+							<rest:metadata indexed="true" required="false"
+								xmlns:rest="uri:com.boomi.rest" />
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

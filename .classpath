@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Boomi AtomSphere/Atom/Atom - Boomi_AnthonyRabiaza - RYUKYU/lib/container-documenthandler-scripting.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BoomiCache"/>
+	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/connector-sdk-dist-1.2.29-dist/connector-sdk-api-1.2.29.jar"/>
+	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/connector-sdk-dist-1.2.29-dist/connector-sdk-test-util-1.2.29.jar"/>
+	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/connector-sdk-dist-1.2.29-dist/connector-sdk-util-1.2.29.jar"/>
+	<classpathentry kind="lib" path="C:/Boomi AtomSphere/Atom/Atom - Boomi_AnthonyRabiaza - RYUKYU/lib/container-execution.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

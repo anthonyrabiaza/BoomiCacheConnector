@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<GenericConnectorDescriptor
+	onPremiseBrowseOnly="true" browsingType="onpremise" requireConnectionForBrowse="false">
+	<description>Boomi Cache Connector</description>
+	
+    <field id="type" label="Cache Type" type="string">
+        <helpText>If not using default Cache, please provide an implementation Class</helpText>
+        <defaultValue>EHCache</defaultValue>
+        <allowedValue label="EHCache">
+        	<value>com.boomi.proserv.caching.impl.CacheEHCache</value>
+		</allowedValue>
+		<allowedValue label="Redis (Standalone or Clustered)">        	
+        	<value>com.boomi.proserv.caching.impl.CacheRedis</value>
+       	</allowedValue>
+    </field>
+
+    <field id="heap" label="Maximum Number of Object in the Cache (EHCache)" type="string">
+        <helpText>If using EHCache, you can provide the maximum object of Object (key-value pair) that can be stored in this Cache</helpText>
+        <defaultValue>1024</defaultValue>
+    </field>
+    
+    <field id="hosts" label="Hosts" type="string">
+        <helpText>For Redis Standalone, please provide the host and port separate with a semi-colon. For Redis Clustered, please provide the list of the hosts with a comma to separate them. For instance: host1:port1,host2:port2</helpText>
+        <defaultValue>localhost:6379</defaultValue>
+    </field>
+    
+     <field id="useSSL" label="Use SSL" type="boolean">
+        <helpText>For Redis (Azure), you can provide enable this option to use SSL. Please also make sure you are using the correct SSL Port (should be 6380)</helpText>
+        <defaultValue>false</defaultValue>
+    </field>
+    
+    <field id="user" label="User" type="string">
+        <helpText>Currently not used</helpText>
+        <defaultValue></defaultValue>
+    </field>
+    
+    <field id="password" label="Password" type="password">
+        <helpText>For Redis, you can provide a password (Access Key for Azure Redis Caches)</helpText>
+        <defaultValue></defaultValue>
+    </field>
+    
+    <field id="properties_filter" label="Dynamics Process Properties Filter" type="string">
+        <helpText>For the Automatic Key Computation (for RESTFul APIs), you can set the regular expression to filter HTTP queries and HTTP parameters</helpText>
+        <defaultValue>(query_.*)|(param_.*)</defaultValue>
+    </field>
+    
+    <field id="hashing" label="Apply SHA Hashing during Automatic Key Computation" type="boolean">
+        <helpText>Apply SHA Hashing during Automatic Key Computation</helpText>
+        <defaultValue>false</defaultValue>
+    </field>
+	
+	<operation types="GET" supportsBrowse="true">
+		<field id="cache_name" label="Name of the Cache Object" type="string">
+	        <helpText>Please provide the name of the Cache, all key-value pairs will reside in this Cache</helpText>
+	        <defaultValue>BoomiCache</defaultValue>
+	    </field>
+		<field id="auto_key" label="Automatic Key Computation" type="boolean">
+            <helpText>Enable Automatic Key Computation (for RESTFul APIs), please uncheck for non-API Processes</helpText>
+            <defaultValue>false</defaultValue>
+        </field>
+        <field id="wrap_inprofile" label="Wrap response in XML Profile (ID and Value elements)" type="boolean">
+            <helpText>Wrap ID and Value element from Cache in a XML object (For use in Function to get the Value)</helpText>
+            <defaultValue>false</defaultValue>
+        </field>
+        <field id="throw_exception" label="Throw Exception when not found" type="boolean">
+            <helpText>Throw Exception when no result if found in the Cache. You will have to Catch the Exception and query the Backend System</helpText>
+            <defaultValue>false</defaultValue>
+        </field>
+	</operation>
+	
+	<operation types="UPSERT" supportsBrowse="true">
+		<field id="cache_name" label="Name of the Cache Object" type="string">
+	        <helpText>Please provide the name of the Cache, all key-value pairs will reside in this Cache</helpText>
+	        <defaultValue>BoomiCache</defaultValue>
+	    </field>
+		<field id="auto_key" label="Automatic Key Computation" type="boolean">
+            <helpText>Enable Automatic Key Computation (for RESTFul APIs), please uncheck for non-API Processes</helpText>
+            <defaultValue>false</defaultValue>
+        </field>
+	</operation>
+	
+	<operation types="DELETE" supportsBrowse="true">
+		<field id="cache_name" label="Name of the Cache Object" type="string">
+	        <helpText>Please provide the name of the Cache, all key-value pairs will reside in this Cache</helpText>
+	        <defaultValue>BoomiCache</defaultValue>
+	    </field>
+		<field id="auto_key" label="Automatic Key Computation" type="boolean">
+            <helpText>Enable Automatic Key Computation (for RESTFul APIs), please uncheck for non-API Processes</helpText>
+            <defaultValue>false</defaultValue>
+        </field>
+	</operation>
+	
+</GenericConnectorDescriptor>
