@@ -1,6 +1,11 @@
 package com.boomi.connector.caching;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 import com.boomi.connector.api.BrowseContext;
 import com.boomi.connector.api.PropertyMap;
@@ -9,7 +14,7 @@ import com.boomi.proserv.caching.CacheInstance;
 
 public class CacheConnection extends BaseConnection {
 
-	private static CacheInstance s_cacheInstance;
+	private static Map<String, CacheInstance> s_cacheInstance;//TODO old instance will still be in the Map
 
 	PropertyMap propertiesMap;
 
@@ -19,35 +24,48 @@ public class CacheConnection extends BaseConnection {
 	}
 
 	private CacheInstance getInstance() throws Exception {
+		CacheInstance cacheInstance = null;
+
 		try {
-			if(s_cacheInstance==null || !s_cacheInstance.isValid()) {
-				
+			String propertiesHash = DigestUtils.sha256Hex(propertiesMap.toString());
+
+			if(s_cacheInstance!=null) {
+				cacheInstance = s_cacheInstance.get(propertiesHash);
+			} else {
+				synchronized(this){
+					s_cacheInstance = Collections.synchronizedMap(new HashMap<String, CacheInstance>());
+				}
+			}
+
+			if(cacheInstance == null || !cacheInstance.isValid()){
 				synchronized(this){
 					Properties properties = new Properties();
-	
-					s_cacheInstance = new CacheInstance();
-					s_cacheInstance.setStandalone(false);
-					s_cacheInstance.setDynamicProcessPropertiesFilter(propertiesMap.getProperty("properties_filter"));
-					s_cacheInstance.setHashing(propertiesMap.getBooleanProperty("hashing"));
-	
+
+					cacheInstance = new CacheInstance();
+					cacheInstance.setStandalone(false);
+					cacheInstance.setDynamicProcessPropertiesFilter(propertiesMap.getProperty("properties_filter"));
+					cacheInstance.setHashing(propertiesMap.getBooleanProperty("hashing"));
+
 					String type = propertiesMap.getProperty("type");
-					s_cacheInstance.setType(type);
-	
+					cacheInstance.setType(type);
+
 					properties.put(type + "." + "hosts", 		propertiesMap.getProperty("hosts"));
 					properties.put(type + "." + "useSSL", 		propertiesMap.getBooleanProperty("useSSL"));
 					properties.put(type + "." + "user", 		propertiesMap.getProperty("user"));
 					properties.put(type + "." + "password", 	propertiesMap.getProperty("password"));
-					s_cacheInstance.setProperties(properties);
-					s_cacheInstance.init();
+					cacheInstance.setProperties(properties);
+					cacheInstance.init();
+
+					s_cacheInstance.put(propertiesHash, cacheInstance);
 				}
 			}
 
-			return s_cacheInstance;
+			return cacheInstance;
 		} catch (Exception e) {
-			throw new Exception("Please click on Back and retry. Error: " + e.getMessage(), e);
+			throw new Exception("Error when getting the Cache. Please Retry. Error: " + e.getMessage(), e);
 		}
 	}
-	
+
 	public String get(String cacheName, String key) throws Exception {
 		return getInstance().get(cacheName, key);
 	}
@@ -63,7 +81,7 @@ public class CacheConnection extends BaseConnection {
 	public void delete(String cacheName, String key) throws Exception {
 		getInstance().delete(cacheName, key);
 	}
-	
+
 	public String computeKey(Properties properties) throws Exception {
 		return getInstance().computeKey(properties);
 	}

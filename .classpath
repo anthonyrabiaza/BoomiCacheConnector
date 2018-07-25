@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/connector-sdk-dist-1.2.29-dist/connector-sdk-test-util-1.2.29.jar"/>
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/connector-sdk-dist-1.2.29-dist/connector-sdk-util-1.2.29.jar"/>
 	<classpathentry kind="lib" path="C:/Boomi AtomSphere/Atom/Atom - Boomi_AnthonyRabiaza - RYUKYU/lib/container-execution.jar"/>
+	<classpathentry kind="lib" path="C:/Boomi AtomSphere/Atom/Atom - Boomi_AnthonyRabiaza - RYUKYU/lib/commons-codec.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
