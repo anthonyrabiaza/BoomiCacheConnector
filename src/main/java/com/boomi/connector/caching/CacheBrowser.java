@@ -16,6 +16,11 @@ import com.boomi.connector.api.ObjectTypes;
 import com.boomi.connector.util.BaseBrowser;
 import com.boomi.proserv.caching.CacheUtils;
 
+/**
+ * 
+ * @author anthony.rabiaza@gmail.com
+ *
+ */
 public class CacheBrowser extends BaseBrowser {
 
 	private static final String TYPE_ELEMENT = "type";

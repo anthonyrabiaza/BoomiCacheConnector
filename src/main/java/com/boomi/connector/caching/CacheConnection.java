@@ -12,6 +12,11 @@ import com.boomi.connector.api.PropertyMap;
 import com.boomi.connector.util.BaseConnection;
 import com.boomi.proserv.caching.CacheInstance;
 
+/**
+ * 
+ * @author anthony.rabiaza@gmail.com
+ *
+ */
 public class CacheConnection extends BaseConnection {
 
 	private static Map<String, CacheInstance> s_cacheInstance;//TODO old instance will still be in the Map
@@ -50,7 +55,7 @@ public class CacheConnection extends BaseConnection {
 					cacheInstance.setType(type);
 
 					properties.put(type + "." + "hosts", 		propertiesMap.getProperty("hosts"));
-					properties.put(type + "." + "useSSL", 		propertiesMap.getBooleanProperty("useSSL"));
+					properties.put(type + "." + "useSSL", 		propertiesMap.getBooleanProperty("useSSL").toString());
 					properties.put(type + "." + "user", 		propertiesMap.getProperty("user"));
 					properties.put(type + "." + "password", 	propertiesMap.getProperty("password"));
 					cacheInstance.setProperties(properties);

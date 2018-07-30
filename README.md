@@ -18,7 +18,7 @@ The Cache Connector will access the Cache system, the **Cache** system will cont
 
 ## Getting Started
 
-Please download the library [connector-archive](BoomiCacheConnector-0.54.zip?raw=true) and the connector descriptor [connector-descriptor](connector-descriptor.xml?raw=true)
+Please download the library [connector-archive](BoomiCacheConnector-0.56.zip?raw=true) and the connector descriptor [connector-descriptor](connector-descriptor.xml?raw=true)
 
 ### Prerequisites in Boomi
 
@@ -77,8 +77,11 @@ When using RESTFul APIs, you can enable the **Automatic Key Computation** in the
 By default all dynamic process properties starting with *query_* and *param_* will be used, to change it, set the property in the operation to set the regular expression to filter the dynamic process properties:
 
 
-#### Example of APIs call
+## Example of APIs call
 
+### Call of API with JSON results
+
+The following API calls will store some values in Redis using the automatic key generation.
 ![Alt text](resources/Boomi_API_Call.png?raw=true "BoomiCache")
 
 ![Alt text](resources/Boomi_API_Call_2.png?raw=true "BoomiCache")
@@ -87,12 +90,26 @@ By default all dynamic process properties starting with *query_* and *param_* wi
 
 ![Alt text](resources/Boomi_API_Call_4.png?raw=true "BoomiCache")
 
+### Data stored in Redis
 
-#### Example of Data in Redis
-
-You can see the **keys** when we are using HTTP Parameters:
+You can see the **keys** generated when we are using HTTP Parameters:
  
 ![Alt text](resources/Boomi_API_Redis.png?raw=true "BoomiCache")
 
-```
 
+## Use of Azure Redis Caches
+
+You can use Boomi Connector to connect to an On-Prem Redis and also to Secured Cloud one. On Azure, please select "Redis Caches", select the option of your instance (the Cache Region should be the same as the VM hosting Boomi to minimize latency.
+Once all the options are selected, click on "Create Redis Cache"
+
+![Alt text](resources/Azure_Redis_0.png?raw=true "BoomiCache")
+
+Copy the Host name:
+
+![Alt text](resources/Azure_Redis_1.png?raw=true "BoomiCache")
+
+Copy the primary key:
+
+![Alt text](resources/Azure_Redis_2.png?raw=true "BoomiCache")
+
+For additional security, you can also update the Redis firewall to allow only your VMs (and your local network) to access the instance. 

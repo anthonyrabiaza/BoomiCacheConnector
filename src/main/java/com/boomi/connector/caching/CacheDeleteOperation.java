@@ -11,6 +11,11 @@ import com.boomi.connector.api.ResponseUtil;
 import com.boomi.connector.util.BaseDeleteOperation;
 import com.boomi.proserv.caching.CacheInstance;
 
+/**
+ * 
+ * @author anthony.rabiaza@gmail.com
+ *
+ */
 public class CacheDeleteOperation extends BaseDeleteOperation {
 
 	protected CacheDeleteOperation(CacheConnection conn) {

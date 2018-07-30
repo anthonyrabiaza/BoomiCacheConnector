@@ -14,7 +14,11 @@ import com.boomi.connector.util.BaseUpdateOperation;
 import com.boomi.proserv.caching.CacheInstance;
 import com.boomi.proserv.caching.CacheUtils;
 
-
+/**
+ * 
+ * @author anthony.rabiaza@gmail.com
+ *
+ */
 public class CacheUpsertOperation extends BaseUpdateOperation {
 
 	protected CacheUpsertOperation(CacheConnection conn) {

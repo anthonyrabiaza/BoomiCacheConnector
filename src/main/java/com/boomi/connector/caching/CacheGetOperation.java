@@ -10,6 +10,11 @@ import com.boomi.connector.api.ResponseUtil;
 import com.boomi.connector.util.BaseGetOperation;
 import com.boomi.proserv.caching.CacheInstance;
 
+/**
+ * 
+ * @author anthony.rabiaza@gmail.com
+ *
+ */
 public class CacheGetOperation extends BaseGetOperation {
 
 	protected CacheGetOperation(CacheConnection conn) {

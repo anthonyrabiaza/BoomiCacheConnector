@@ -6,6 +6,11 @@ import com.boomi.connector.api.Operation;
 import com.boomi.connector.api.OperationContext;
 import com.boomi.connector.util.BaseConnector;
 
+/**
+ * 
+ * @author anthony.rabiaza@gmail.com
+ *
+ */
 public class CacheConnector extends BaseConnector {
 
     @Override
