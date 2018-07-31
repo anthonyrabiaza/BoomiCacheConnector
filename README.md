@@ -112,4 +112,6 @@ Copy the primary key:
 
 ![Alt text](resources/Azure_Redis_2.png?raw=true "BoomiCache")
 
+Paste the Hostname followed by :6380 in the Connector Configuration and paste the Key to the Password Value, please don't forget to check "Use SSL".
+
 For additional security, you can also update the Redis firewall to allow only your VMs (and your local network) to access the instance. 
