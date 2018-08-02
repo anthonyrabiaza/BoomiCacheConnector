@@ -14,8 +14,8 @@
        	</allowedValue>
     </field>
 
-    <field id="heap" label="Maximum Number of Object in the Cache (EHCache)" type="string">
-        <helpText>If using EHCache, you can provide the maximum object of Object (key-value pair) that can be stored in this Cache</helpText>
+    <field id="heap" label="Maximum Heap or Configuration file (EHCache)" type="string">
+        <helpText>If using EHCache, you can provide the maximum object of Object (key-value pair) that can be stored in this Cache or the full path of a configuration file (EHCache v3)</helpText>
         <defaultValue>1024</defaultValue>
     </field>
     
