@@ -115,3 +115,29 @@ Copy the primary key:
 Paste the Hostname followed by :6380 in the Connector Configuration and paste the Key to the Password Value, please don't forget to check "Use SSL".
 
 For additional security, you can also update the Redis firewall to allow only your VMs (and your local network) to access the instance. 
+
+## Use of ehcache configuration file
+
+You place the following in /opt/Dell_Boomi/Atom/conf/ehcache.xml and set the value of **Maximum Heap or Configuration file (EHCache)** to the full path to the file in the connector
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache:config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xmlns:ehcache='http://www.ehcache.org/v3'
+	xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.1.xsd">
+
+	<ehcache:cache alias="BoomiCache">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.String</ehcache:value-type>
+		<ehcache:expiry>
+			<ehcache:ttl unit="seconds">10</ehcache:ttl>
+		</ehcache:expiry>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<ehcache:offheap unit="MB">1</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+	
+</ehcache:config>
+```
