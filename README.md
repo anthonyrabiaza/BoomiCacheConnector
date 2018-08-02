@@ -118,7 +118,7 @@ For additional security, you can also update the Redis firewall to allow only yo
 
 ## Use of ehcache configuration file
 
-You place the following in /opt/Dell_Boomi/Atom/conf/ehcache.xml and set the value of **Maximum Heap or Configuration file (EHCache)** to the full path to the file in the connector
+You have to place the following content in a file (for instance /opt/Dell_Boomi/Atom/conf/ehcache.xml), go the connector configuration and set the value of **Maximum Heap or Configuration file (EHCache)** property to the full path of the previous file.
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
