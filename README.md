@@ -18,7 +18,7 @@ The Cache Connector will access the Cache system, the **Cache** system will cont
 
 ## Getting Started
 
-Please download the library [connector-archive](BoomiCacheConnector-0.57.zip?raw=true) and the connector descriptor [connector-descriptor](connector-descriptor.xml?raw=true)
+Please download the library [connector-archive](BoomiCacheConnector-0.60.zip?raw=true) and the connector descriptor [connector-descriptor](connector-descriptor.xml?raw=true)
 
 ### Prerequisites in Boomi
 
