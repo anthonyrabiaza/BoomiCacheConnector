@@ -25,3 +25,4 @@ bin/delete.xsd
 bin/get.xsd
 bin/metadata.xml
 bin/upsert.xsd
+/bin/
