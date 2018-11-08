@@ -1,9 +1,13 @@
 package com.boomi.connector.caching;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -19,9 +23,41 @@ import com.boomi.proserv.caching.CacheInstance;
  */
 public class CacheConnection extends BaseConnection {
 
-	private static Map<String, CacheInstance> s_cacheInstance;//TODO old instance will still be in the Map
+	private static Map<String, CacheInstance> s_cacheInstance;
+	private static Timer s_timer;
+
+	//Every 1 minute
+	private static long DELAY 				= 1 * 60000L;
+	private static long PERIOD 				= 1 * 60000L;
+
+	//Default Inactive Period: 1 hour
+	private static long INACTIVE_PERIOD 	= 3600 * 60000L;
 
 	PropertyMap propertiesMap;
+
+	static {
+		TimerTask repeatedTask = new TimerTask() {
+			public void run() {
+				System.out.println("Cleaning  " + new Date());
+				if(s_cacheInstance != null) {
+					for (Iterator<String> iterator = s_cacheInstance.keySet().iterator(); iterator.hasNext();) {
+						String currentInstanceName = iterator.next();
+						CacheInstance currentInstance = s_cacheInstance.get(currentInstanceName);
+						if(currentInstance != null && currentInstance.getLastUsedDate() != null) {
+							if((currentInstance.getLastUsedDate().getTime()-new Date().getTime())>=INACTIVE_PERIOD) {
+								currentInstance.close();
+								s_cacheInstance.remove(currentInstanceName);
+							}
+						}
+					}
+				}
+			}
+		};
+		s_timer = new Timer("CacheConnection_cleanup");
+
+
+		s_timer.scheduleAtFixedRate(repeatedTask, DELAY, PERIOD);
+	}
 
 	public CacheConnection(BrowseContext context) {
 		super(context);
@@ -65,6 +101,8 @@ public class CacheConnection extends BaseConnection {
 					s_cacheInstance.put(propertiesHash, cacheInstance);
 				}
 			}
+
+			//TODO, put a timestamp of last used on cacheInstance
 
 			return cacheInstance;
 		} catch (Exception e) {

@@ -12,6 +12,9 @@
 		<allowedValue label="Redis (Standalone or Clustered)">        	
         	<value>com.boomi.proserv.caching.impl.CacheRedis</value>
        	</allowedValue>
+       	<allowedValue label="Memcached">        	
+        	<value>com.boomi.proserv.caching.impl.CacheMemcached</value>
+       	</allowedValue>
     </field>
 
     <field id="heap" label="Maximum Heap or Configuration file (EHCache)" type="string">
