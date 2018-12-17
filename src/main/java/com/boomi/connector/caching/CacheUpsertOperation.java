@@ -49,9 +49,10 @@ public class CacheUpsertOperation extends BaseUpdateOperation {
 				if(autoKey) {
 					objectId = getConnection().computeKey(CacheInstance.getContextProperties());
 				}
-				getConnection().upsert(cacheName, objectId, CacheUtils.getFirstNodeTextContent(doc, "//Upsert/Value"));
+				String value = CacheUtils.getFirstNodeTextContent(doc, "//Upsert/Value");
+				getConnection().upsert(cacheName, objectId, value);
 
-				response.addResult(input, OperationStatus.SUCCESS, "200", "OK", ResponseUtil.toPayload(CacheUtils.stringToInputStream(inputStr)));
+				response.addResult(input, OperationStatus.SUCCESS, "200", "OK", ResponseUtil.toPayload(CacheUtils.stringToInputStream(value)));
 			} catch (Exception e) {
 				// make best effort to process every input
 				logger.log(Level.SEVERE, "Details of Exception:", e);
