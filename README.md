@@ -3,7 +3,7 @@
 I wanted to share a solution I recently developed to have high-throughput in the Dell Boomi AtomSphere Platform: use of Cache Pattern with In-Memory Data Grid or In-Memory Database (cf [IMDG/IMDB](https://en.wikipedia.org/wiki/List_of_in-memory_databases). 
 The Connector is designed to allow the use of a Caching/In-Memory Data Grid/Database in Boomi and thus, provide high-throughput APIs and Processes which stored information in Memory and avoid unnecessary calls to the backend system for read/query scenarios.
 
-Boomi Cache Connector is a Generic Connector which will allows you to connect to any Cache system. Initially, it is supporting **Ehcache** and **Redis** (Standalone or Clustered).
+Boomi Cache Connector is a Generic Connector which will allows you to connect to any Cache system. Initially, it is supporting **Ehcache**,  **Redis** (Standalone or Clustered) and **memcached**.
 
 ![Alt text](resources/BoomiCache_Connector.png?raw=true "BoomiCache")
 
@@ -115,6 +115,13 @@ Copy the primary key:
 Paste the Hostname followed by :6380 in the Connector Configuration and paste the Key to the Password Value, please don't forget to check "Use SSL".
 
 For additional security, you can also update the Redis firewall to allow only your VMs (and your local network) to access the instance. 
+
+## Use of Redis on Atom Cloud
+
+Pooling need to be disable to make Redis Working on Test Atom Cloud or Atom Cloud
+
+![Alt text](resources/Azure_Redis_Atom_Cloud.png?raw=true "BoomiCache")
+
 
 ## Use of ehcache configuration file
 
