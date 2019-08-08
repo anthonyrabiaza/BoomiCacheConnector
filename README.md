@@ -93,7 +93,7 @@ The following API calls will store some values in Redis using the automatic key 
 ### Data stored in Redis
 
 You can see the **keys** generated when we are using HTTP Parameters:
- 
+
 ![Alt text](resources/Boomi_API_Redis.png?raw=true "BoomiCache")
 
 
@@ -118,7 +118,7 @@ For additional security, you can also update the Redis firewall to allow only yo
 
 ## Use of Redis on Atom Cloud
 
-Pooling need to be disable to make Redis Working on Test Atom Cloud or Atom Cloud
+Pooling need to be disable to make the Redis connector working on Test Atom Cloud or Atom Cloud. Please set the Maximum Heap or Configuration file to "nopool"
 
 ![Alt text](resources/Azure_Redis_Atom_Cloud.png?raw=true "BoomiCache")
 
@@ -148,3 +148,24 @@ You have to place the following content in a file (for instance /opt/Dell_Boomi/
 	
 </ehcache:config>
 ```
+
+# Update of libraries
+
+To update the internal libraries, open the Archive Zip with your favorite Archive Management tool (7Zip, Winzip, etc.). Go to the lib folder and update the jars:
+
+![Archive](./resources/Archive.png?raw=true)
+
+**List of libraries**
+
+EHCache:
+
+- ehcache-X.Y.Z.jar (https://github.com/ehcache/ehcache3)
+
+MemCached:
+
+- spymemcached-X.Y.Z.jar (https://github.com/couchbase/spymemcachedd)
+
+Redis:
+
+- jedis-X.Y.Z.jar (https://github.com/xetorthio/jedis)
+- commons-pool2-X.Y.Z.jar
