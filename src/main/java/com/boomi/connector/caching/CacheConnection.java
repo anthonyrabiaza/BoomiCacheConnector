@@ -110,6 +110,10 @@ public class CacheConnection extends BaseConnection {
 		}
 	}
 
+	public Map<String,String> get(String cacheName) throws Exception {
+		return getInstance().get(cacheName);
+	}
+	
 	public String get(String cacheName, String key) throws Exception {
 		return getInstance().get(cacheName, key);
 	}
