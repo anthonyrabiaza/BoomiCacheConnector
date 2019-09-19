@@ -70,7 +70,7 @@ We are calling the back-end system and store (**Upsert**) the value to the Cache
 
 ![Alt text](resources/Boomi_Op_Upsert.png?raw=true "BoomiCache")
 
-We are not using the **Delete** operation here but it is very similar to **Get** operation and is taking a Key, it you put ***** as key, it will delete the full Cache object.
+We are not using the **Delete** operation here but it is very similar to **Get** operation and is taking a Key, it you put * as key, it will delete the full Cache object.
 
 ### Automatic key calculation
 When using RESTFul APIs, you can enable the **Automatic Key Computation** in the operation and avoid providing the key (just put 'auto' in the ID). The connector will use the HTTP queries and params.
