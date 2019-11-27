@@ -1,4 +1,4 @@
-# Boomi Cache Connector (Beta)
+# Boomi Cache Connector
 
 I wanted to share a solution I recently developed to have high-throughput in the Dell Boomi AtomSphere Platform: use of Cache Pattern with In-Memory Data Grid or In-Memory Database (cf [IMDG/IMDB](https://en.wikipedia.org/wiki/List_of_in-memory_databases). 
 The Connector is designed to allow the use of a Caching/In-Memory Data Grid/Database in Boomi and thus, provide high-throughput APIs and Processes which stored information in Memory and avoid unnecessary calls to the backend system for read/query scenarios.
