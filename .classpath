@@ -3,13 +3,12 @@
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="com.boomi.connector.plugin.classpath.DELL_BOOMI_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BoomiCache"/>
-	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/connector-sdk-dist-1.2.29-dist/connector-sdk-api-1.2.29.jar"/>
-	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/connector-sdk-dist-1.2.29-dist/connector-sdk-test-util-1.2.29.jar"/>
-	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/connector-sdk-dist-1.2.29-dist/connector-sdk-util-1.2.29.jar"/>
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/commons-codec.jar" sourcepath="C:/Users/Ant/AppData/Local/Temp/.org.sf.feeling.decompiler1568165655087/source/commons-codec-1.8-sources.jar"/>
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/container-documenthandler-scripting.jar"/>
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/container-execution.jar"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
