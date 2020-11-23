@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache:config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ehcache="http://www.ehcache.org/v3" xmlns:jcache="http://www.ehcache.org/v3/jsr107"
+	xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.1.xsd http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+
+	<ehcache:service>
+		<jsr107:defaults enable-management="true" enable-statistics="true" />
+	</ehcache:service>
+	
+	<ehcache:cache alias="javaCache">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.String</ehcache:value-type>
+		<ehcache:expiry>
+			<ehcache:ttl unit="seconds">10</ehcache:ttl>
+		</ehcache:expiry>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<ehcache:offheap unit="MB">1</ehcache:offheap>
+		</ehcache:resources>
+		<jcache:mbeans enable-statistics="true" enable-management="true" />
+	</ehcache:cache>
+	
+	<ehcache:cache alias="BoomiCache">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>java.lang.String</ehcache:value-type>
+		<ehcache:expiry>
+			<ehcache:ttl unit="seconds">10</ehcache:ttl>
+		</ehcache:expiry>
+		<ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<ehcache:offheap unit="MB">1</ehcache:offheap>
+		</ehcache:resources>
+	</ehcache:cache>
+	
+</ehcache:config>

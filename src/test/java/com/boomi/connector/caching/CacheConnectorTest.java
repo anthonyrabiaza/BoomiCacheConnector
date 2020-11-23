@@ -1,4 +1,4 @@
-package com.boomi.connector.demo;
+package com.boomi.connector.caching;
 import com.boomi.connector.api.OperationType;
 import com.boomi.connector.caching.CacheConnector;
 import com.boomi.connector.testutil.ConnectorTester;
