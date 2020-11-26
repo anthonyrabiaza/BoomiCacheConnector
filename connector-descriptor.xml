@@ -17,7 +17,7 @@
        	</allowedValue>
     </field>
 
-    <field id="heap" label="Maximum Heap or Configuration file (EHCache)" type="string">
+    <field id="heap" label="Maximum Heap or Configuration file (EHCache), nopool to disable Pooling (Redis)" type="string">
         <helpText>If using EHCache, you can provide the maximum object of Object (key-value pair) that can be stored in this Cache or the full path of a configuration file (EHCache v3)</helpText>
         <defaultValue>1024</defaultValue>
     </field>
@@ -69,6 +69,10 @@
             <helpText>Throw Exception when no result if found in the Cache. You will have to Catch the Exception and query the Backend System</helpText>
             <defaultValue>false</defaultValue>
         </field>
+        <field id="set_ttl" label="Set Time To Live (TTL)" type="integer">
+            <helpText>Set the time to live (TTL) to some number of milliseconds for every record returned. Set this to -1 to disable a change to TTL. (Redis only)</helpText>
+            <defaultValue>-1</defaultValue>
+        </field>
 	</operation>
 	
 	<operation types="UPSERT" supportsBrowse="true">
@@ -79,6 +83,10 @@
 		<field id="auto_key" label="Automatic Key Computation" type="boolean">
             <helpText>Enable Automatic Key Computation (for RESTFul APIs), please uncheck for non-API Processes</helpText>
             <defaultValue>false</defaultValue>
+        </field>
+        <field id="set_ttl" label="Set Time To Live (TTL)" type="integer">
+            <helpText>Set the time to live (TTL) to some number of milliseconds for every record returned. Set this to -1 to disable a change to TTL. (Redis and Memcached)</helpText>
+            <defaultValue>-1</defaultValue>
         </field>
 	</operation>
 	

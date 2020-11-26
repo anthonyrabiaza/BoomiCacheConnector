@@ -68,18 +68,25 @@ public class CacheMemcached implements CacheInterface {
 	}
 
 	@Override
-	public Map<String,String> get(String cacheName) {
+	public Map<String,String> get(String cacheName, Long ttl) {
 		throw new RuntimeException("Memcached doesn't support getAll");
 	}
 	
 	@Override
-	public String get(String cacheName, String key) {
+	public String get(String cacheName, String key, Long ttl) {
 		return getCache(cacheName).get(cacheName + "_" + key).toString();
 	}
 
 	@Override
-	public void set(String cacheName, String key, String value) {
-		getCache(cacheName).set(cacheName + "_" + key, 0, value);
+	public void set(String cacheName, String key, String value, Long ttl) {
+		int ttlInt;
+		if(ttl < 0) {
+			ttlInt = 0;
+		} else {
+			ttlInt = ttl.intValue();
+		}
+			
+		getCache(cacheName).set(cacheName + "_" + key, ttlInt, value);
 	}
 
 	@Override

@@ -40,10 +40,11 @@ public class CacheDeleteOperation extends BaseDeleteOperation {
             	logger.info("ARA: Deleting " + cacheName);
             	String objectId = input.getObjectId();
             	if("*".equals(objectId)) {
+            		logger.fine("Found wildcard objectId - executing batch delete");
             		getConnection().delete(cacheName);
             	} else {
             		if(autoKey) {
-            			objectId = getConnection().computeKey(CacheInstance.getContextProperties());//FIXME
+            			objectId = getConnection().computeKey(CacheInstance.getContextProperties());
             		}
             		getConnection().delete(cacheName, objectId);
             	}

@@ -1,0 +1,57 @@
+<project name="BoomiCacheConnector" basedir="." default="package">
+	<buildnumber file="build.num"/>
+	
+	<property name="version.num" value="0.78"/>
+	
+	<property name="class.dir" location="bin" />
+	<property name="inner-jar.name" value="BoomiCacheConnector-${version.num}.jar" />
+	<property name="target.dir" location="target" />
+	<property name="embed-resources.dir" location="src/main/resources" />
+	<property name="connector-zip.name" value="BoomiCacheConnector-${version.num}.zip" />
+	<property name="connector-xml.name" value="connector-descriptor.xml" />
+	<property name="connector-sdk-home.dir" location="G:\My Drive\lib\boomi\connector-sdk-dist-1.3.2-dist"/>
+	
+	<property name="local-deploy.dir" location="C:\Boomi AtomSphere\Atom - desktop-atom\connector\account-ABC123-cache-devex" />
+	<property name="local-connector-zip.name" value="connector-boomi_anthonyrabiaza-3IG5LK-cach2-dev-7100-car.zip" />
+	<property name="local-connector-xml.name" value="info-boomi_anthonyrabiaza-3IG5LK-cach2-dev-7100.xml" />
+
+	<target name="clean">
+		<delete dir="${target.dir}" />
+	</target>
+
+	<target name="info">
+		<echo message="Project directory: ${basedir}" />
+		<echo message="Build: ${build.number}" />
+		<echo message="User: ${user.name}"/>
+	</target>
+
+	<target name="inner-jar" depends="info">
+		<manifest file="MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}"/>
+		    <attribute name="Implementation-Version" value="${version.num}-b${build.number}"/> 
+		</manifest>
+		<jar destfile="${target.dir}/${inner-jar.name}" manifest="MANIFEST.MF">
+			<fileset dir="${class.dir}" excludes="**/test**" />
+			<fileset dir="${embed-resources.dir}/." />
+		</jar>
+	</target>
+	<target name="package" depends="inner-jar">
+		<zip destfile="${target.dir}/${connector-zip.name}">
+			<zipfileset dir="lib" prefix="lib"/>
+			<zipfileset dir="${target.dir}" includes="${inner-jar.name}" prefix="lib"/>
+			<zipfileset dir="${connector-sdk-home.dir}" includes="connector-sdk-util-?.?.?.jar" prefix="lib"/>
+			<zipfileset dir="${basedir}/META-INF" includes="connector-config.xml" prefix="META-INF"/>				
+		</zip>
+		<copy file="${connector-xml.name}" todir="${target.dir}" />
+		<delete file="${target.dir}/${inner-jar.name}" />
+	</target>
+
+
+	<target name="debug-deploy" depends="package">
+		<!--
+		<copy file="${target.dir}/${connector-xml.name}"  tofile="${local-deploy.dir}/${local-connector-xml.name}"/>
+		<copy file="${target.dir}/${connector-zip.name}"  tofile="${local-deploy.dir}/${local-connector-zip.name}"/>
+		-->
+		<scp file="${target.dir}/${connector-xml.name}" todir="ant@boomi.antsoftware.org:/opt/Boomi_AtomSphere/Atom/Atom_Ubuntu1604/connector/boomi_anthonyrabiaza-3IG5LK-cach2-dev" password="tongasoa101" trust="true"/>
+	</target>
+</project>

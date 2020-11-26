@@ -104,19 +104,19 @@ public class CacheEHCache implements CacheInterface {
 	}
 
 	@Override
-	public Map<String,String> get(String cacheName) {
+	public Map<String,String> get(String cacheName, Long ttl) {
 		Set<String> keys = new HashSet<>();
 		getCache(cacheName).forEach(entry -> keys.add(entry.getKey()));
 		return getCache(cacheName).getAll(keys);
 	}
 	
 	@Override
-	public String get(String cacheName, String key) {
+	public String get(String cacheName, String key, Long ttl) {
 		return getCache(cacheName).get(key);
 	}
 
 	@Override
-	public void set(String cacheName, String key, String value) {
+	public void set(String cacheName, String key, String value, Long ttl) {
 		getCache(cacheName).put(key, value);
 	}
 

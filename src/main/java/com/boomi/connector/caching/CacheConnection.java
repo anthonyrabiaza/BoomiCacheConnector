@@ -110,16 +110,16 @@ public class CacheConnection extends BaseConnection {
 		}
 	}
 
-	public Map<String,String> get(String cacheName) throws Exception {
-		return getInstance().get(cacheName);
+	public Map<String,String> get(String cacheName, Long ttl) throws Exception {
+		return getInstance().get(cacheName, ttl);
 	}
 	
-	public String get(String cacheName, String key) throws Exception {
-		return getInstance().get(cacheName, key);
+	public String get(String cacheName, String key, Long ttl) throws Exception {
+		return getInstance().get(cacheName, key, ttl);
 	}
 
-	public void upsert(String cacheName, String key, String value) throws Exception {
-		getInstance().set(cacheName, key, value);
+	public void upsert(String cacheName, String key, String value, Long ttl) throws Exception {
+		getInstance().set(cacheName, key, value, ttl);
 	}
 
 	public void delete(String cacheName) throws Exception {

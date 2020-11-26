@@ -41,6 +41,14 @@ public class CacheGetOperation extends BaseGetOperation {
 		boolean wrapInProfile = getContext().getOperationProperties().getBooleanProperty("wrap_inprofile");
 		logger.fine("ARA: WrapInProfile " + wrapInProfile);
 
+		long ttl;
+		try {
+			ttl = getContext().getOperationProperties().getLongProperty("set_ttl");
+		} catch (Exception e) {
+			ttl = -1;
+		}
+		logger.fine("ARA: TTL " + ttl);
+		
 		ObjectIdData input = request.getObjectId();
 
 		try {
@@ -52,7 +60,7 @@ public class CacheGetOperation extends BaseGetOperation {
 			logger.info("ARA: ID " + objectId);
 
 			if(!"*".equals(objectId)) {//Normal Get
-				String cachedValue = getConnection().get(cacheName, objectId);
+				String cachedValue = getConnection().get(cacheName, objectId, ttl);
 
 				if(throwException && cachedValue==null) {
 					ResponseUtil.addExceptionFailure(response, input, new Exception("Value not found in the Cache"));
@@ -74,7 +82,7 @@ public class CacheGetOperation extends BaseGetOperation {
 				}
 
 			} else {//Get All
-				Map<String,String> cachedValue = getConnection().get(cacheName);
+				Map<String,String> cachedValue = getConnection().get(cacheName, ttl);
 
 				if(throwException && cachedValue==null) {
 					ResponseUtil.addExceptionFailure(response, input, new Exception("Value not found in the Cache"));

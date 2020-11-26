@@ -25,7 +25,6 @@ public class CacheBrowser extends BaseBrowser {
 
 	private static final String TYPE_ELEMENT = "type";
 
-
 	protected CacheBrowser(CacheConnection conn) {
 		super(conn);
 	}

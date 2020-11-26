@@ -36,7 +36,12 @@ public class CacheUpsertOperation extends BaseUpdateOperation {
 		boolean autoKey = getContext().getOperationProperties().getBooleanProperty("auto_key");
 		logger.fine("ARA: AutoKey " + autoKey);
 		
-		//String objectType = getContext().getObjectTypeId();
+		long ttl;
+		try {
+			ttl = getContext().getOperationProperties().getLongProperty("set_ttl");
+		} catch (Exception e) {
+			ttl = -1;
+		}
 		
 		int i=0;
 		for (ObjectData input : request) {
@@ -50,7 +55,7 @@ public class CacheUpsertOperation extends BaseUpdateOperation {
 					objectId = getConnection().computeKey(CacheInstance.getContextProperties());
 				}
 				String value = CacheUtils.getFirstNodeTextContent(doc, "//Upsert/Value");
-				getConnection().upsert(cacheName, objectId, value);
+				getConnection().upsert(cacheName, objectId, value, ttl);
 
 				response.addResult(input, OperationStatus.SUCCESS, "200", "OK", ResponseUtil.toPayload(CacheUtils.stringToInputStream(value)));
 			} catch (Exception e) {

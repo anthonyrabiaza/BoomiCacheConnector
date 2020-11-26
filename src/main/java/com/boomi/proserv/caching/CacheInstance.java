@@ -11,6 +11,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.boomi.document.scripting.DataContextImpl;
 import com.boomi.execution.ExecutionManager;
+import com.boomi.execution.ExecutionTask;
 import com.boomi.execution.ExecutionUtil;
 import com.boomi.launchutil.StreamUtil;
 import com.boomi.proserv.caching.impl.CacheEHCache;
@@ -34,6 +35,10 @@ public class CacheInstance {
 	private Properties properties;
 	private Date creationDate 						= null; 
 	private Date lastUsedDate 						= null;
+	
+	private String getVersion() {
+		return this.getClass().getPackage().getImplementationVersion();
+	}
 	
 	public String getDynamicProcessPropertiesFilter() {
 		return dynamicProcessPropertiesFilter;
@@ -88,7 +93,7 @@ public class CacheInstance {
 		if(type == null) {
 			type = CacheEHCache.class.getName();
 		}
-		
+		getLogger().info("Cache connector implementation version: " + getVersion());
 		getLogger().info("Initialization of Cache Instance with type " + type + " and properties " + properties);
 		if(type != null && type.length()>0) {
 			getLogger().info("Trying to use " + type + " cache type");
@@ -132,8 +137,8 @@ public class CacheInstance {
 	 * @param cacheName
 	 * @throws IOException
 	 */
-	public void set(DataContextImpl dataContext, String cacheName) throws IOException {
-		set(dataContext, cacheName, computeKey(dataContext));
+	public void set(DataContextImpl dataContext, String cacheName, Long ttl) throws IOException {
+		set(dataContext, cacheName, computeKey(dataContext), ttl);
 	}
 
 	/**
@@ -143,8 +148,8 @@ public class CacheInstance {
 	 * * @param cacheName
 	 * @return
 	 */
-	public String get(DataContextImpl dataContext, String cacheName) {
-		return get(dataContext, cacheName, computeKey(dataContext));
+	public String get(DataContextImpl dataContext, String cacheName, Long ttl) {
+		return get(dataContext, cacheName, computeKey(dataContext), ttl);
 	}
 
 	/*End*/
@@ -158,12 +163,12 @@ public class CacheInstance {
 	 * @param key
 	 * @throws IOException
 	 */
-	public void set(DataContextImpl dataContext, String cacheName, String key) throws IOException {
+	public void set(DataContextImpl dataContext, String cacheName, String key, Long ttl) throws IOException {
 		StringBuffer content = new StringBuffer();
 		for(int i=0;i<dataContext.getDataCount();i++) {
 			content.append(StreamUtil.toString(dataContext.getStream(i), "UTF-8"));
 		}
-		set(cacheName, key, content.toString());
+		set(cacheName, key, content.toString(), ttl);
 	}
 
 	/**
@@ -174,8 +179,8 @@ public class CacheInstance {
 	 * @param key
 	 * @return
 	 */
-	public String get(DataContextImpl dataContext, String cacheName, String key) {
-		return get(cacheName, key);
+	public String get(DataContextImpl dataContext, String cacheName, String key, Long ttl) {
+		return get(cacheName, key, ttl);
 	}
 
 	/*End*/
@@ -189,9 +194,9 @@ public class CacheInstance {
 	 * @param value
 	 * @throws IOException
 	 */
-	public void set(String cacheName, String key, String value) throws IOException {
-		getLogger().info("Storing " + (value.length()>50?value.substring(0, 50)+"(truncated)":value) + " to " + cacheName + " with key " + key);
-		cache.set(cacheName, key, value);
+	public void set(String cacheName, String key, String value, Long ttl) throws IOException {
+		getLogger().fine("Storing " + (value.length()>50?value.substring(0, 50)+"(truncated)":value) + " to " + cacheName + " with key " + key);
+		cache.set(cacheName, key, value, ttl);
 		lastUsedDate = new Date();
 	}
 	
@@ -201,9 +206,9 @@ public class CacheInstance {
 	 * @param key
 	 * @return
 	 */
-	public Map<String,String> get(String cacheName) {
+	public Map<String,String> get(String cacheName, Long ttl) {
 		getLogger().info("Getting all keys,values from " + cacheName);
-		Map<String,String> keysValues = cache.get(cacheName);
+		Map<String,String> keysValues = cache.get(cacheName, ttl);
 		getLogger().info("Value returned");
 		if(!standalone) {
 			CacheInstance.addCacheHitToContext(keysValues!=null);
@@ -218,9 +223,9 @@ public class CacheInstance {
 	 * @param key
 	 * @return
 	 */
-	public String get(String cacheName, String key) {
+	public String get(String cacheName, String key, Long ttl) {
 		getLogger().info("Getting value from " + cacheName + " with key " + key);
-		String value = cache.get(cacheName, key);
+		String value = cache.get(cacheName, key, ttl);
 		getLogger().info("Value returned");
 		if(!standalone) {
 			CacheInstance.addCacheHitToContext(value!=null);
@@ -319,12 +324,20 @@ public class CacheInstance {
 	}
 	
 	static public void addCacheHitToContext(boolean hit) {
-		ExecutionManager.getCurrent().setProperty(CACHE_HIT, String.valueOf(hit));
-		
+		ExecutionTask task;
+		task = ExecutionManager.getCurrent();
+		if (task !=null) {
+			task.setProperty(CACHE_HIT, String.valueOf(hit));
+		}
 	}
 	
 	static public Properties getContextProperties() {
-		return ExecutionManager.getCurrent().getProperties();
+		ExecutionTask task;
+		task = ExecutionManager.getCurrent();
+		if (task !=null) {
+		  return task.getProperties();
+		}
+		return new Properties();
 	}
 
 }

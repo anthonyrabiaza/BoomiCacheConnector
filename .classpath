@@ -5,7 +5,6 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="com.boomi.connector.plugin.classpath.DELL_BOOMI_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BoomiCache"/>
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/commons-codec.jar" sourcepath="C:/Users/Ant/AppData/Local/Temp/.org.sf.feeling.decompiler1568165655087/source/commons-codec-1.8-sources.jar"/>
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/container-documenthandler-scripting.jar"/>
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/container-execution.jar"/>
@@ -122,9 +121,9 @@
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/streambuffer.jar"/>
 	<classpathentry kind="lib" path="G:/My Drive/lib/boomi/wstx-asl.jar"/>
 	<classpathentry kind="lib" path="lib/commons-pool2-2.4.2.jar"/>
-	<classpathentry kind="lib" path="lib/ehcache-3.5.2.jar"/>
+	<classpathentry kind="lib" path="lib/ehcache-3.5.2.jar" sourcepath="C:/Users/Ant/AppData/Local/Temp/.org.sf.feeling.decompiler1606117444811/source/ehcache-3.5.2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/hamcrest-core-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/jedis-2.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/spymemcached-2.9.9.jar"/>
+	<classpathentry kind="lib" path="lib/jedis-3.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

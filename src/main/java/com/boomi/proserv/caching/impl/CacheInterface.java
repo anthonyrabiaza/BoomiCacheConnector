@@ -10,9 +10,9 @@ import java.util.Properties;
  */
 public interface CacheInterface {
 	public boolean isValid();
-	public Map<String,String> get(String cacheName);
-	public String get(String cacheName, String key);
-	public void set(String cacheName, String key, String value);
+	public Map<String,String> get(String cacheName, Long ttl);
+	public String get(String cacheName, String key, Long ttl);
+	public void set(String cacheName, String key, String value, Long ttl);
 	public void delete(String cacheName);
 	public void delete(String cacheName, String key);
 	

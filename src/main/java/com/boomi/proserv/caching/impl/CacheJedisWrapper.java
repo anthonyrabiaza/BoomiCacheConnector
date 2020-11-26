@@ -1,7 +1,10 @@
 package com.boomi.proserv.caching.impl;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -17,9 +20,14 @@ import redis.clients.jedis.JedisClusterConnectionHandler;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisSlotBasedConnectionHandler;
+import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.Response;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
 /**
  * Class Wrapper with Jedis Implementation
+ * 
  * @author anthony.rabiaza@gmail.com
  *
  */
@@ -122,11 +130,32 @@ public class CacheJedisWrapper {
 		jedis.close();
 	}
 	
-	public Map<String,String> hgetAll(String cacheName) {
-		Map<String,String> result;
+	public Map<String, String> getAll(String hashVal, Long ttl) {
+		getLogger().fine("getAll with args hashVal, ttl : " + hashVal + ", " + ttl);
+		HashMap<String, String> result = new HashMap<String, String>();
 		Jedis jedis = getJedis();
+		Map<String, Response<String>> responses = new HashMap<>();
+		List<String> keys;
+		Pipeline p;
 		try {
-			result = jedis.hgetAll(cacheName);
+			ScanParams scanParams = new ScanParams().count(100).match(hashVal);
+			String cur = redis.clients.jedis.ScanParams.SCAN_POINTER_START;
+			do {
+				ScanResult<String> scanResult = jedis.scan(cur, scanParams);
+				keys = scanResult.getResult();
+				p = jedis.pipelined();
+				// work with result
+				for (String thisKey : keys) {
+					responses.put(thisKey, p.get(thisKey));
+				}
+				p.sync();
+				for (String thisKey : responses.keySet()) {
+					Response<String> r = (Response<String>) responses.get(thisKey);
+					result.put(thisKey, r.get());
+					getLogger().finest("retrieved key: " + thisKey + " and value: " + r.get());
+				}
+				cur = scanResult.getCursor();
+			} while (!cur.equals(redis.clients.jedis.ScanParams.SCAN_POINTER_START));
 		} finally {
 			releaseJedis(jedis);
 		}
@@ -134,11 +163,15 @@ public class CacheJedisWrapper {
 		return result;
 	}
 
-	public String hget(String cacheName, String key) {
+	public String get(String hashVal, Long ttl) {
 		String result;
 		Jedis jedis = getJedis();
 		try {
-			result = jedis.hget(cacheName, key);
+			result = jedis.get(hashVal);
+			if (ttl != -1) {
+				jedis.pexpire(hashVal, ttl);
+			}
+			;
 		} finally {
 			releaseJedis(jedis);
 		}
@@ -146,28 +179,51 @@ public class CacheJedisWrapper {
 		return result;
 	}
 
-	public void hset(String cacheName, String key, String value) {
+	public void set(String hashVal, String value, Long ttl) {
 		Jedis jedis = getJedis();
 		try {
-			jedis.hset(cacheName, key, value);
+			if (ttl != -1) {
+				jedis.psetex(hashVal, ttl, value);
+			} else {
+				jedis.set(hashVal, value);
+			}
 		} finally {
 			releaseJedis(jedis);
 		}
 	}
 
-	public void hdel(String cacheName) {
+	public void del(String hashVal) {
 		Jedis jedis = getJedis();
 		try {
-			jedis.del(cacheName);
+			jedis.del(hashVal);
 		} finally {
 			releaseJedis(jedis);
 		}
 	}
 
-	public void hdel(String cacheName, String key) {
+	public void delAll(String hashVal) {
+		getLogger().fine("delAll with args hashVal: " + hashVal);
 		Jedis jedis = getJedis();
+		long numDel;
 		try {
-			jedis.hdel(cacheName, key);
+			ScanParams scanParams = new ScanParams().count(100).match(hashVal);
+			String cur = redis.clients.jedis.ScanParams.SCAN_POINTER_START;
+			do {
+				ScanResult<String> scanResult = jedis.scan(cur, scanParams);
+				String[] arrKeys = Arrays.copyOf(scanResult.getResult().toArray(), scanResult.getResult().size(),
+						String[].class);
+				if (arrKeys.length > 0) {
+					getLogger().fine("Attempting to del " + arrKeys.length + " keys");
+					numDel = jedis.del(arrKeys);
+					if (numDel != arrKeys.length) {
+						getLogger().warning("Could not delete " + (arrKeys.length - numDel) + " entries from Redis");
+					}
+				} else {
+					getLogger().fine("Nothing to delete");
+				}
+
+				cur = scanResult.getCursor();
+			} while (!cur.equals(redis.clients.jedis.ScanParams.SCAN_POINTER_START));
 		} finally {
 			releaseJedis(jedis);
 		}
